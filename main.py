@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-
+from config import *
 
 
 
@@ -17,8 +17,7 @@ client = genai.Client(api_key=api_key)
 
 def main():
 
-    #print("Hello from aiagent!")
-
+    
     messages = [
     types.Content(role="user", parts=[types.Part(text=sys.argv[1])]),
 ]
@@ -28,7 +27,9 @@ def main():
         sys.exit(1) 
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash-001", contents=messages
+        model="gemini-2.0-flash-001",
+        contents=messages,
+        config=types.GenerateContentConfig(system_instruction=system_prompt)
     )
     print(response.text)
     
